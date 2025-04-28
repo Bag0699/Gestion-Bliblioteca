@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/authors")
+@RequestMapping("/api/authors")
 public class AuthorController {
 
     private final AuthorService authorService;
@@ -24,7 +24,7 @@ public class AuthorController {
             @RequestBody CreateAuthorRequest request) {
 
         AuthorResponse author = authorService.save(request);
-        return ResponseEntity.created(URI.create("api/auhtors/" + author.getId()))
+        return ResponseEntity.created(URI.create("/api/authors/" + author.getId()))
                 .body(author);
     }
 
