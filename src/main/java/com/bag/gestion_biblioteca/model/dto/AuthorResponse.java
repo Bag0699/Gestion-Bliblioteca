@@ -8,5 +8,5 @@ import lombok.Getter;
 public class AuthorResponse {
 
     private Long id;
-    private Long name;
+    private String name;
 }
