@@ -9,7 +9,7 @@ import java.time.LocalDate;
 
 @Getter
 @Builder
-public class CreateReservationRequest {
+public class CreateHistoryRequest {
 
     @NotNull(message = "El id del usuario no puede ser nulo.")
     private Long userId;
@@ -17,9 +17,11 @@ public class CreateReservationRequest {
     @NotNull(message = "El id del libro no puede ser nulo.")
     private Long bookId;
 
-    @NotEmpty(message = "El campo fecha de retorno no puede ser vacío o nulo.")
-    private LocalDate returnDate;
+    private String activity;
 
-    @NotNull(message = "El id del estado de la reserva no puede ser nulo.")
-    private Long reservationStatusId;
+    @NotEmpty(message = "El campo fecha no puede ser vacío o nulo.")
+    private LocalDate date;
+
+    private String details;
+
 }

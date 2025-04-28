@@ -29,4 +29,7 @@ public class Reservation {
 
     @Column(name = "return_date")
     private LocalDate returnDate;
+
+    @Column(name = "reservation_status_id")
+    private ReservationStatus reservationStatus;
 }
