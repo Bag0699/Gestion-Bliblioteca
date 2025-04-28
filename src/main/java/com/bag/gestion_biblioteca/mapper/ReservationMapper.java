@@ -6,7 +6,7 @@ import com.bag.gestion_biblioteca.model.entity.Reservation;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {UserMapper.class, BookMapper.class})
 public interface ReservationMapper {
 
     @Mapping(target = "reservationDate", expression = "java(mapFormatReservationDate(reservation))")

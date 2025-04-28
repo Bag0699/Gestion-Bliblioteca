@@ -1,6 +1,7 @@
 package com.bag.gestion_biblioteca.model.dto;
 
 import com.bag.gestion_biblioteca.model.entity.Book;
+import com.bag.gestion_biblioteca.model.entity.ReservationStatus;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -14,4 +15,5 @@ public class ReservationResponse {
     private Book book;
     private String reservationDate;
     private String returnDate;
+    private ReservationStatus reservationStatus;
 }

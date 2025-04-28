@@ -19,4 +19,7 @@ public class CreateReservationRequest {
 
     @NotEmpty(message = "El campo fecha de retorno no puede ser vacío o nulo.")
     private LocalDate returnDate;
+
+    @NotNull(message = "El id del estado de la reserva no puede ser nulo.")
+    private Long reservationStatusId;
 }
