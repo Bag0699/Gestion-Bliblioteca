@@ -34,7 +34,6 @@ public class ReservationServiceImpl implements ReservationService{
     private final ReservationMapper reservationMapper;
     private final BookMapper bookMapper;
     private final UserMapper userMapper;
-    private final ReservationStatusMapper resMapper;
 
     @Override
     public ReservationResponse save(CreateReservationRequest request) {
