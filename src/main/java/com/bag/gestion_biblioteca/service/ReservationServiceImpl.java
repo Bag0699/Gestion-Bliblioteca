@@ -5,7 +5,6 @@ import com.bag.gestion_biblioteca.exception.ReservationStatusNotFoundException;
 import com.bag.gestion_biblioteca.exception.UserNotFoundException;
 import com.bag.gestion_biblioteca.mapper.BookMapper;
 import com.bag.gestion_biblioteca.mapper.ReservationMapper;
-import com.bag.gestion_biblioteca.mapper.ReservationStatusMapper;
 import com.bag.gestion_biblioteca.mapper.UserMapper;
 import com.bag.gestion_biblioteca.model.dto.BookResponse;
 import com.bag.gestion_biblioteca.model.dto.CreateReservationRequest;
