@@ -1,9 +1,11 @@
 package com.bag.gestion_biblioteca.service;
 
 import com.bag.gestion_biblioteca.exception.BookNotFoundException;
+import com.bag.gestion_biblioteca.exception.ReservationStatusNotFoundException;
 import com.bag.gestion_biblioteca.exception.UserNotFoundException;
 import com.bag.gestion_biblioteca.mapper.BookMapper;
 import com.bag.gestion_biblioteca.mapper.ReservationMapper;
+import com.bag.gestion_biblioteca.mapper.ReservationStatusMapper;
 import com.bag.gestion_biblioteca.mapper.UserMapper;
 import com.bag.gestion_biblioteca.model.dto.BookResponse;
 import com.bag.gestion_biblioteca.model.dto.CreateReservationRequest;
@@ -12,6 +14,7 @@ import com.bag.gestion_biblioteca.model.dto.UserResponse;
 import com.bag.gestion_biblioteca.model.entity.Reservation;
 import com.bag.gestion_biblioteca.repository.BookRepository;
 import com.bag.gestion_biblioteca.repository.ReservationRepository;
+import com.bag.gestion_biblioteca.repository.ReservationStatusRepository;
 import com.bag.gestion_biblioteca.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,6 +30,7 @@ public class ReservationServiceImpl implements ReservationService{
     private final ReservationRepository reservationRepository;
     private final UserRepository userRepository;
     private final BookRepository bookRepository;
+    private final ReservationStatusRepository res;
     private final ReservationMapper reservationMapper;
     private final BookMapper bookMapper;
     private final UserMapper userMapper;
@@ -34,18 +38,20 @@ public class ReservationServiceImpl implements ReservationService{
     @Override
     public ReservationResponse save(CreateReservationRequest request) {
         return userRepository.findById(request.getUserId())
-                .map(user -> bookRepository
-                        .findById(request.getBookId())
-                        .map(book -> {
-                            Reservation reservation = new Reservation();
-                            reservation.setUser(user);
-                            reservation.setBook(book);
-                            reservation.setReservationDate(LocalDate.now());
-                            reservation.setReturnDate(request.getReturnDate());
-                            return reservationRepository.save(reservation);
-                        })
+                .map(user -> bookRepository.findById(request.getBookId())
+                        .map(book -> res.findById(request.getReservationStatusId())
+                                .map(reservationStatus -> {
+                                    Reservation reservation = new Reservation();
+                                    reservation.setUser(user);
+                                    reservation.setBook(book);
+                                    reservation.setReservationDate(LocalDate.now());
+                                    reservation.setReturnDate(request.getReturnDate());
+                                    reservation.setReservationStatus(reservationStatus);
+                                    return reservationRepository.save(reservation);
+                                })
+                                .orElseThrow(ReservationStatusNotFoundException::new))
+                        .map(reservationMapper::toReservationResponse)
                         .orElseThrow(BookNotFoundException::new))
-                .map(reservationMapper::toReservationResponse)
                 .orElseThrow(UserNotFoundException::new);
     }
 

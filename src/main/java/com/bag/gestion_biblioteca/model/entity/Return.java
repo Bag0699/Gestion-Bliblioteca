@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Entity
-@Table(name = "returns")
+@Table(name = "`returns`")  // Usando comillas para escapar la palabra reservada
 public class Return {
 
     @Id
