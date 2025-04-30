@@ -20,6 +20,22 @@ public enum ErrorCatalog {
     USER_NOT_FOUND("ERR_USR_001", "Usuario no encontrado."),
     INVALID_USER("ERR_USR_002", "Parámetros inválidos de usuario."),
 
+    HISTORY_NOT_FOUND("ERR_HIS_001", "Historial no encontrado."),
+    INVALID_HISTORY("ERR_HIS_002", "Parámetros inválidos de historial."),
+
+    PENALTY_NOT_FOUND("ERR_PEN_001", "Penalidad no encontrada."),
+    INVALID_PENALTY("ERR_PEN_002", "Parámetros inválidos de penalidad."),
+
+    REPORT_NOT_FOUND("ERR_REP_001", "Reporte no encontrado."),
+    INVALID_REPORT("ERR_REP_002", "Parámetros inválidos de reporte."),
+
+    RETURN_NOT_FOUND("ERR_RET_001", "Devolución no encontrada."),
+    INVALID_RETURN("ERR_RET_002", "Parámetros inválidos de devolución."),
+
+    RESERVATION_STATUS_NOT_FOUND("ERR_RS_001", "Estado de reserva no encontrado."),
+    INVALID_RESERVATION_STATUS("ERR_RS_002", "Parámetros inválidos de estado de reserva."),
+
+
     GENERIC_ERROR("ERR_GEN_001", "Un error inesperado ocurrió.");
 
     private final String code;
