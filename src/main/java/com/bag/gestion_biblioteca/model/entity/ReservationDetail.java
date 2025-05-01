@@ -1,17 +1,14 @@
 package com.bag.gestion_biblioteca.model.entity;
 
-import com.bag.gestion_biblioteca.util.Status;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
-
 @Getter
 @Setter
 @Entity
-@Table(name = "`returns`")  // Usando comillas para escapar la palabra reservada
-public class Return {
+@Table(name = "reservation_details")
+public class ReservationDetail {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,11 +18,7 @@ public class Return {
     @JoinColumn(name = "reservation_id")
     private Reservation reservation;
 
-    private LocalDate date;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "book_status")
-    private Status bookStatus;
-
-
+    @ManyToOne
+    @JoinColumn(name = "book_id")
+    private Book book;
 }
