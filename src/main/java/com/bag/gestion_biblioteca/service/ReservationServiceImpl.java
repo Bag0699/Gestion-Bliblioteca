@@ -28,52 +28,26 @@ public class ReservationServiceImpl implements ReservationService{
 
     private final ReservationRepository reservationRepository;
     private final UserRepository userRepository;
-    private final BookRepository bookRepository;
     private final ReservationStatusRepository res;
     private final ReservationMapper reservationMapper;
-    private final BookMapper bookMapper;
-    private final UserMapper userMapper;
+
 
     @Override
     public ReservationResponse save(CreateReservationRequest request) {
         return userRepository.findById(request.getUserId())
-                .map(user -> bookRepository.findById(request.getBookId())
-                        .map(book -> res.findById(request.getReservationStatusId())
-                                .map(reservationStatus -> {
-                                    Reservation reservation = new Reservation();
-                                    reservation.setUser(user);
-                                    reservation.setBook(book);
-                                    reservation.setReservationDate(LocalDate.now());
-                                    reservation.setReturnDate(request.getReturnDate());
-                                    reservation.setReservationStatus(reservationStatus);
-                                    return reservationRepository.save(reservation);
-                                })
-                                .orElseThrow(ReservationStatusNotFoundException::new))
+                .map(user -> res.findById(request.getReservationStatusId())
+                        .map(reservationStatus -> {
+                            Reservation reservation = new Reservation();
+                            reservation.setUser(user);
+                            reservation.setReservationDate(LocalDate.now());
+                            reservation.setReturnDate(request.getReturnDate());
+                            reservation.setPickupDate(request.getPickupDate());
+                            reservation.setReservationStatus(reservationStatus);
+                            return reservationRepository.save(reservation);
+                        })
+                        .orElseThrow(ReservationStatusNotFoundException::new))
                         .map(reservationMapper::toReservationResponse)
-                        .orElseThrow(BookNotFoundException::new))
                 .orElseThrow(UserNotFoundException::new);
-    }
-
-    @Override
-    public List<BookResponse> findAllByUserId(Long userId) {
-        return userRepository.findById(userId)
-                .map(user -> reservationRepository.findAllByUser_Id(userId))
-                .map(reservations -> reservations.stream()
-                        .map(Reservation::getBook)
-                        .map(bookMapper::toBookResponse)
-                        .collect(Collectors.toList()))
-                .orElseThrow(UserNotFoundException::new);
-    }
-
-    @Override
-    public List<UserResponse> findAllByBookId(Long bookId) {
-        return bookRepository.findById(bookId)
-                .map(book -> reservationRepository.findAllByBook_Id(bookId))
-                .map(reservations -> reservations.stream()
-                        .map(Reservation::getUser)
-                        .map(userMapper::toUserResponse)
-                        .collect(Collectors.toList()))
-                .orElseThrow(BookNotFoundException::new);
     }
 
     @Override

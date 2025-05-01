@@ -10,7 +10,5 @@ import java.util.List;
 public interface ReservationService {
 
     ReservationResponse save(CreateReservationRequest request);
-    List<BookResponse> findAllByUserId(Long userId);
-    List<UserResponse> findAllByBookId(Long bookId);
     List<ReservationResponse> findAll();
 }

@@ -30,16 +30,6 @@ public class ReservationController {
                 .body(reservation);
     }
 
-    @GetMapping("/books/{id}")
-    public List<BookResponse> findAllByUserId(@PathVariable Long id) {
-        return reservationService.findAllByUserId(id);
-    }
-
-    @GetMapping("/users/{id}")
-    public List<UserResponse> findAllByBookId(@PathVariable Long id) {
-        return  reservationService.findAllByBookId(id);
-    }
-
     @GetMapping
     public List<ReservationResponse> findAll() {
         return reservationService.findAll();

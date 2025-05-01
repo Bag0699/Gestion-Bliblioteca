@@ -1,5 +1,6 @@
 package com.bag.gestion_biblioteca.model.entity;
 
+import com.bag.gestion_biblioteca.util.Status;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,5 +17,6 @@ public class ReservationStatus {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private Status status;
 }

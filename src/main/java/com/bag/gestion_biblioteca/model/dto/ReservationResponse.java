@@ -12,8 +12,8 @@ public class ReservationResponse {
 
     private Long id;
     private UserResponse user;
-    private Book book;
     private String reservationDate;
     private String returnDate;
+    private String pickupDate;
     private ReservationStatus reservationStatus;
 }

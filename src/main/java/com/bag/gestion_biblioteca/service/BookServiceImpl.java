@@ -37,6 +37,7 @@ public class BookServiceImpl implements BookService{
                            book.setAvailable(request.getAvailable());
                            book.setAuthor(author);
                            book.setCategory(category);
+                           book.setDescription(request.getDescription());
                            return bookRepository.save(book);
                         })
                         .orElseThrow(CategoryNotFoundException::new))
@@ -71,6 +72,7 @@ public class BookServiceImpl implements BookService{
                                         book.setQuantity(request.getQuantity());
                                         book.setAvailable(request.getAvailable());
                                         book.setAuthor(author);
+                                        book.setDescription(request.getDescription());
                                         book.setCategory(category);
                                         return bookRepository.save(book);
                                     })

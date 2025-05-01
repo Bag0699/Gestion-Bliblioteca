@@ -1,5 +1,6 @@
 package com.bag.gestion_biblioteca.model.entity;
 
+import com.bag.gestion_biblioteca.util.Reason;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,13 +23,15 @@ public class Penalty {
     private User user;
 
     private BigDecimal amount;
-    private String reason;
 
-    @Column(name = "report_date")
-    private LocalDate reportDate;
+    @Enumerated(EnumType.STRING)
+    private Reason reason;
 
     @Column(name = "suspension_date")
     private LocalDate suspensionDate;
+
+    @Column(name = "suspension_end_date")
+    private LocalDate suspensionEndDate;
 
     private Boolean paid;
 }

@@ -20,15 +20,14 @@ public class Reservation {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "book_id")
-    private Book book;
-
     @Column(name = "reservation_date")
     private LocalDate reservationDate;
 
     @Column(name = "return_date")
     private LocalDate returnDate;
+
+    @Column(name = "pickup_date")
+    private LocalDate pickupDate;
 
     @ManyToOne
     @JoinColumn(name = "reservation_status_id")

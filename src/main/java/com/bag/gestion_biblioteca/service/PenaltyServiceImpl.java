@@ -31,8 +31,8 @@ public class PenaltyServiceImpl implements PenaltyService{
                     penalty.setUser(user);
                     penalty.setAmount(request.getAmount());
                     penalty.setReason(request.getReason());
-                    penalty.setReportDate(LocalDate.now());
-                    penalty.setSuspensionDate(request.getSuspensionDate());
+                    penalty.setSuspensionDate(LocalDate.now());
+                    penalty.setSuspensionEndDate(request.getSuspensionEndDate());
                     penalty.setPaid(request.getPaid());
                     return penaltyRepository.save(penalty);
                 })
@@ -64,9 +64,8 @@ public class PenaltyServiceImpl implements PenaltyService{
                           penalty.setUser(user);
                           penalty.setAmount(request.getAmount());
                           penalty.setReason(request.getReason());
-                          penalty.setReportDate(LocalDate.now());
-                          penalty.setSuspensionDate(request.getSuspensionDate());
                           penalty.setPaid(request.getPaid());
+                          penalty.setSuspensionEndDate(request.getSuspensionEndDate());
                           return penaltyRepository.save(penalty);
                         })
                         .orElseThrow(UserNotFoundException::new))

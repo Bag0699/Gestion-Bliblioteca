@@ -6,9 +6,10 @@ import com.bag.gestion_biblioteca.model.entity.Reservation;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring", uses = {UserMapper.class, BookMapper.class, ReservationStatusMapper.class})
+@Mapper(componentModel = "spring", uses = {UserMapper.class, ReservationStatusMapper.class})
 public interface ReservationMapper {
 
+    @Mapping(target = "pickupDate", expression = "java(mapFormatPickupDate(reservation))")
     @Mapping(target = "reservationDate", expression = "java(mapFormatReservationDate(reservation))")
     @Mapping(target = "returnDate", expression = "java(mapFormatReturnDate(reservation))")
     ReservationResponse toReservationResponse(Reservation reservation);
@@ -24,6 +25,11 @@ public interface ReservationMapper {
     default String mapFormatReturnDate(Reservation reservation) {
         return reservation
                 .getReturnDate()
+                .format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+    }
+    default String mapFormatPickupDate(Reservation reservation) {
+        return reservation
+                .getPickupDate()
                 .format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 }

@@ -1,5 +1,6 @@
 package com.bag.gestion_biblioteca.model.dto;
 
+import com.bag.gestion_biblioteca.util.Status;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -8,5 +9,5 @@ import lombok.Getter;
 public class ReservationStatusResponse {
 
     private Long id;
-    private String status;
+    private Status status;
 }
