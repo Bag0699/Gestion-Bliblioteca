@@ -1,5 +1,6 @@
 package com.bag.gestion_biblioteca.model.dto;
 
+import com.bag.gestion_biblioteca.util.Reason;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
@@ -19,10 +20,10 @@ public class CreatePenaltyRequest {
     private BigDecimal amount;
 
     @NotEmpty(message = "El campo razón no puede ser vacío o nulo.")
-    private String reason;
+    private Reason reason;
 
     @NotEmpty(message = "El campo fecha de suspensión no puede ser vacío o nulo.")
-    private LocalDate suspensionDate;
+    private LocalDate suspensionEndDate;
 
     private Boolean paid;
 }

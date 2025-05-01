@@ -15,6 +15,9 @@ public class CreateBookRequest {
     @NotNull(message = "La cantidad no puede ser nula.")
     private Integer quantity;
 
+    @NotNull(message = "La descripción no puede ser nula.")
+    private String description;
+
     @NotNull(message = "La disponibilidad no puede ser nula.")
     private Boolean available;
 

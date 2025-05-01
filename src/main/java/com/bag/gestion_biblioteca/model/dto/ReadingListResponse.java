@@ -6,13 +6,9 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class HistoryResponse {
+public class ReadingListResponse {
 
     private Long id;
     private UserResponse user;
     private Book book;
-    private String activity;
-    private String date;
-    private String details;
-
 }

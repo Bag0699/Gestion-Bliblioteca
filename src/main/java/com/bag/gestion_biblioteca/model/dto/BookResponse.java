@@ -10,6 +10,8 @@ import lombok.Getter;
 public class BookResponse {
     private Long id;
     private String title;
+    private String description;
+    private Boolean available;
     private Integer quantity;
     private Category category;
     private Author author;
