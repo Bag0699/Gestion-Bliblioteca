@@ -3,6 +3,7 @@ package com.bag.gestion_biblioteca.model.dto;
 import com.bag.gestion_biblioteca.util.Reason;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -16,13 +17,14 @@ public class CreatePenaltyRequest {
     @NotNull(message = "El id del usuario no puede ser nulo.")
     private Long userId;
 
-    @NotEmpty(message = "El campo monto no puede ser vacío o nulo.")
+    @NotNull(message = "El campo monto no puede ser nulo.")
+    @PositiveOrZero(message = "El monto debe ser mayor o igual a cero.")
     private BigDecimal amount;
 
-    @NotEmpty(message = "El campo razón no puede ser vacío o nulo.")
+    @NotNull(message = "El campo razón no puede ser nulo.")
     private Reason reason;
 
-    @NotEmpty(message = "El campo fecha de suspensión no puede ser vacío o nulo.")
+    @NotNull(message = "El campo fecha de suspensión no puede ser nulo.")
     private LocalDate suspensionEndDate;
 
     private Boolean paid;

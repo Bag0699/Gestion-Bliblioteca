@@ -17,13 +17,13 @@ public class CreateReportRequest {
     @NotNull(message = "El id del libro no puede ser nulo.")
     private Long bookId;
 
-    @NotEmpty(message = "El campo tipo  no puede ser vacío o nulo.")
+    @NotNull(message = "El campo tipo  no puede ser vacío o nulo.")
     private Type Type;
 
     @NotEmpty(message = "El campo descripción no puede ser vacío o nulo.")
     private String description;
 
-    @NotEmpty(message = "El campo fecha de restock no puede ser vacío o nulo.")
+    @NotNull(message = "El campo fecha de restock no puede ser vacío o nulo.")
     private LocalDate restockDate;
 
     private Boolean resolved;

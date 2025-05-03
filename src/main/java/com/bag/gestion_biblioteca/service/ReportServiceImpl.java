@@ -64,11 +64,31 @@ public class ReportServiceImpl implements ReportService{
 
     @Override
     public ReportResponse update(Long id, CreateReportRequest request) {
-        return null;
+        return reportRepository.findById(id)
+                .map(report -> userRepository.findById(request.getUserId())
+                        .map(user -> bookRepository.findById(request.getBookId())
+                                .map(book -> {
+                                    report.setBook(book);
+                                    report.setUser(user);
+                                    report.setType(request.getType());
+                                    report.setDescription(request.getDescription());
+                                    report.setReportDate(LocalDate.now());
+                                    report.setRestockDate(request.getRestockDate());
+                                    report.setResolved(request.getResolved());
+
+                                    return reportRepository.save(report);
+                                })
+                                .orElseThrow(BookNotFoundException::new))
+                        .orElseThrow(UserNotFoundException::new))
+                .map(reportMapper::toReportResponse)
+                .orElseThrow(ReportNotFoundException::new);
     }
 
     @Override
     public void deleteById(Long id) {
-
+        if(reportRepository.findById(id).isEmpty()) {
+            throw new ReportNotFoundException();
+        }
+        reportRepository.deleteById(id);
     }
 }
