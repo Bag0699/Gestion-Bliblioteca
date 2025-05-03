@@ -62,12 +62,12 @@ Sigue estos pasos para ejecutar la API localmente.
 1.  Crea una base de datos llamada `gestion_biblioteca` (o el nombre que prefieras) en tu instancia de MySQL.
 2.  Configura la conexión a la base de datos en el archivo `src/main/resources/application.properties` (o `application.yml`). Asegúrate de ajustar los siguientes parámetros:
     ```properties
-    spring.datasource.url=jdbc:postgresql://localhost:5432/gestion_biblioteca
+    spring.datasource.url=jdbc:mysql://localhost:3306/tu_db
     spring.datasource.username=tu_usuario_db
     spring.datasource.password=tu_password_db
     spring.jpa.hibernate.ddl-auto=update # Ajusta según tu necesidad (create, create-drop, validate)
     ```
-    Reemplaza `tu_usuario_db` y `tu_password_db` con tus credenciales de MySQL.
+    Reemplaza `tu_usuario_db` , `tu_password_db` y `tu_db` con tus credenciales de MySQL.
 
 ### Ejecución
 
