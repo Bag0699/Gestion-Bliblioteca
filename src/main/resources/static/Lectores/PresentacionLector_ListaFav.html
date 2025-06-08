@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lector - Mis Favoritos </title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <div class="BarraNombre" id="NombreLector">
+            <h1>Lector - (Nombres y apellidos del administrador)</h1>
+        </div>
+        <div class="ContenedorNav">
+            <nav class="navbar">
+                <ul>
+                    <li><a href="PresentacionLector_Inicio.html">Inicio</a></li>
+                    <li><a href="#">Catégorias</a></li>
+                    <li><a href="PresentacionLector_Libros.html">Libros</a></li>
+                    <li><a href="PresentacionLector_ListaFav.html">Lista de Favoritos</a></li>
+                    <li><a href="PresentacionLector_HistorialReserva.html">Historial de Reserva</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="Busqueda">
+            <input type="text" placeholder="Buscar por Título">
+        </section>
+
+        <section class="ContenedorPrincipal">
+            <div class="Tabla-Scroll">
+                <div class="Tabla">
+                    <div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>SELECCIONAR</th>
+                                    <th>PORTADA</th>
+                                    <th>TÍTULO</th>
+                                    <th>AUTOR</th>
+                                    <th>DESCRIPCIÓN</th>
+                                    <th>CANTIDAD TOTAL</th>
+                                </tr>
+                            </thead>
+                            <tbody id="milista-tbody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="OpciónFav">
+            <div class="ContenedorBtn">
+                <button class="BotonAccionar" id="EliminarDeLista">ELIMINAR DE LISTA</button>
+                <button class="BotonAccionar">RESERVAR LIBROS</button>
+            </div>
+        </section>
+    </main>
+
+
+    <!-- VER LISTA -->
+    <script>
+        function cargarLista() {
+            const userId = sessionStorage.getItem("userId");
+            if (!userId) {
+                alert("No se encontró el usuario logueado. Por favor inicia sesión.");
+                return;
+            }
+
+            fetch(`/api/reading-list/user/${userId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Error al obtener la lista");
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    poblarTabla(data);
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                });
+        }
+
+        function poblarTabla(libros) {
+            const tbody = document.getElementById("milista-tbody");
+            tbody.innerHTML = "";
+
+            libros.forEach(libro => {
+                const fila = document.createElement("tr");
+
+                fila.innerHTML = `
+                 <td><input type="checkbox" data-id="${libro.id}" /></td>
+                 <td><img src="#" alt="Portada" width="50" /></td>
+                 <td>${libro.title}</td>
+                 <td>${libro.author ? libro.author.name : 'Sin autor'}</td>
+                 <td>${libro.description}</td>
+                 <td>${libro.quantity}</td>
+            `;
+
+                tbody.appendChild(fila);
+            });
+        }
+        document.addEventListener("DOMContentLoaded", cargarLista);
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const nombre = sessionStorage.getItem("nombreUsuario");
+            const apellido = sessionStorage.getItem("apellidoUsuario");
+
+            const nombreAdminDiv = document.getElementById("NombreLector");
+
+            if (nombreAdminDiv) {
+                if (nombre && apellido) {
+                    nombreAdminDiv.textContent = `${nombre} ${apellido}`;
+                } else {
+                    nombreAdminDiv.textContent = "LECTOR";
+                }
+            }
+        });
+    </script>
+
+    <!-- ELIMINAR DE LISTA -->
+    <script>
+        document.getElementById("EliminarDeLista").addEventListener("click", () => {
+            const tbody = document.getElementById("milista-tbody");
+            const checkboxes = tbody.querySelectorAll("input[type='checkbox']:checked");
+
+            if (checkboxes.length === 0) {
+                alert("Selecciona al menos un libro para eliminar.");
+                return;
+            }
+
+            const idsAEliminar = [];
+            checkboxes.forEach(checkbox => {
+                idsAEliminar.push(Number(checkbox.dataset.id));
+                const fila = checkbox.closest("tr");
+                if (fila) fila.remove();
+            });
+
+            const userId = sessionStorage.getItem("userId");
+            if (!userId) {
+                alert("No se encontró el ID de usuario en la sesión.");
+                return;
+            }
+
+            console.log("Enviando eliminación de libros:", idsAEliminar, "para userId:", userId);
+
+            fetch(`/api/reading-list/delete?userId=${userId}`, {
+                method: "DELETE",  
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(idsAEliminar)
+            })
+                .then(response => {
+                    if (!response.ok) throw new Error("Error al eliminar libros en el servidor");
+                    console.log("Libros eliminados exitosamente.");
+                    alert("Libros eliminados exitosamente.");  
+                })
+                .catch(error => {
+                    console.error("Error al eliminar en el servidor:", error);
+                    alert("Hubo un problema al eliminar los libros.");
+                });
+        });
+
+    </script>
+
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

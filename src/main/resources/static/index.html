@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Registro</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<div class="background-overlay"></div>
+<div class="container">
+    <div class="form-box">
+        <div class="form-toggle">
+            <span id="login-toggle" class="active">Ingresar</span>
+            <span id="register-toggle" class="Registrar">Registrar</span>
+        </div>
+
+        <!-- Formulario de inicio de sesión -->
+        <form id="login-form" class="form active">
+            <label>Correo electrónico *</label>
+            <input type="email" required/>
+            <label>Contraseña *</label>
+            <input type="password" required/>
+            <button type="submit">INICIAR SESIÓN</button>
+        </form>
+
+        <!-- Formulario de registro -->
+        <form id="register-form" class="form">
+            <label>Correo electrónico *</label>
+            <input type="email" id="correo" required/>
+            <div class="name-fields">
+                <div class="Datos">
+                    <label>Nombres *</label>
+                    <input type="text" id="nombre" required/>
+                </div>
+                <div class="Datos">
+                    <label>Apellidos *</label>
+                    <input type="text" id="apellidos" required/>
+                </div>
+            </div>
+            <label>DNI *</label>
+            <input type="text" id="dni" required/>
+            <label>Contraseña *</label>
+            <input type="password" id="contraseña" required/>
+
+            <div class="checkboxes">
+                <label><input type="checkbox" required/> Acepto la política de privacidad *</label>
+                <label><input type="checkbox" required/> Acepto de Cookies *</label>
+            </div>
+            <button type="submit">REGISTRARME</button>
+        </form>
+
+    </div>
+</div>
+
+<script>
+    const loginToggle = document.getElementById("login-toggle");
+    const registerToggle = document.getElementById("register-toggle");
+    const loginForm = document.getElementById("login-form");
+    const registerForm = document.getElementById("register-form");
+
+    loginToggle.addEventListener("click", () => {
+        loginToggle.classList.add("active");
+        registerToggle.classList.remove("active");
+        loginForm.classList.add("active");
+        registerForm.classList.remove("active");
+    });
+
+    registerToggle.addEventListener("click", () => {
+        registerToggle.classList.add("active");
+        loginToggle.classList.remove("active");
+        registerForm.classList.add("active");
+        loginForm.classList.remove("active");
+    });
+</script>
+
+<script>
+    document.getElementById("register-form").addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const nombre = document.getElementById("nombre").value;
+        const correo = document.getElementById("correo").value;
+        const apellidos = document.getElementById("apellidos").value;
+        const contraseña = document.getElementById("contraseña").value;
+        const dni = document.getElementById("dni").value;
+
+        if (!nombre || !correo || !contraseña || !dni || !apellidos) {
+            alert("Todos los campos son obligatorios.");
+            return;
+        }
+
+        const datosUsuario = {
+            name: nombre,
+            lastName: apellidos,
+            email: correo,
+            password: contraseña,
+            dni: dni,
+            role: "USER"
+        };
+
+        fetch("/api/users", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(datosUsuario),
+            credential: "include"
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Error al registrar el usuario.");
+                }
+                return response.json();
+            })
+            .then(data => {
+                alert("Registro exitoso.");
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("Error al registrar: " + error.message);
+            });
+    });
+</script>
+
+
+<script>
+    document.getElementById("login-form").addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const email = document.querySelector("#login-form input[type='email']").value;
+        const password = document.querySelector("#login-form input[type='password']").value;
+
+        if (!email || !password) {
+            alert("Por favor, completa todos los campos.");
+            return;
+        }
+
+        const loginData = {
+            email: email,
+            password: password
+        };
+
+        fetch("/api/users/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(loginData),
+            credential: "include"
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Credenciales incorrectas");
+                }
+                return response.json();
+            })
+            .then(data => {
+                sessionStorage.setItem("userId", data.id);
+                sessionStorage.setItem("nombreUsuario", data.name);
+                sessionStorage.setItem("apellidoUsuario", data.lastName);
+
+                if (data.role === "ADMIN") {
+                    window.location.href = "/Administracion/PresentacionAdmin.html";
+                } else if (data.role === "USER") {
+                    window.location.href = "/Lectores/PresentacionLector_Inicio.html";
+                } else {
+                    alert("Rol no reconocido.");
+                }
+            })
+            .catch(error => {
+                alert("Error: " + error.message);
+            });
+    });
+</script>
+</body>
+</html>
