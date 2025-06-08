@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lector - Reservas </title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <div class="BarraNombre" id="NombreLector">
+            <h1>Lector - (Nombres y apellidos del Lector)</h1>
+        </div>
+        <div class="ContenedorNav">
+            <nav class="navbar">
+                <ul>
+                    <li><a href="PresentacionLector_Inicio.html">Inicio</a></li>
+                    <li><a href="#">Catégorias</a></li>
+                    <li><a href="PresentacionLector_Libros.html">Libros</a></li>
+                    <li><a href="PresentacionLector_ListaFav.html">Lista de Favoritos</a></li>
+                    <li><a href="PresentacionLector_HistorialReserva.html">Historial de Reserva</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="Busqueda">
+            <input type="text" placeholder="Buscar por Título">
+        </section>
+
+        <section class="ContenedorPrincipal">
+            <div class="Tabla-Scroll">
+                <div class="Tabla">
+                    <div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>SELECCIONAR </th>
+                                    <th>ID RESERVA</th>
+                                    <th>TITULOS</th>
+                                    <th>FECHA DE RESERVA</th>
+                                    <th>FECHA DE DEVOLUCIÓN</th>
+                                    <th>ESTADO DE RESERVA</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="ContenedorBtn">
+                    <button class="BotonAccionar">CANCELAR RESERVA</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="OpcionLibro">
+
+        </section>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const nombre = sessionStorage.getItem("nombreUsuario");
+                const apellido = sessionStorage.getItem("apellidoUsuario");
+
+                const nombreAdminDiv = document.getElementById("NombreLector");
+
+                if (nombreAdminDiv) {
+                    if (nombre && apellido) {
+                        nombreAdminDiv.textContent = `${nombre} ${apellido}`;
+                    } else {
+                        nombreAdminDiv.textContent = "LECTOR";
+                    }
+                }
+            });
+        </script>
+    </main>
+</body>
